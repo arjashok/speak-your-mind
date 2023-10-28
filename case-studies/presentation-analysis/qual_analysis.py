@@ -20,6 +20,62 @@ if __name__ == "__main__":
     ]
 
     emotional_categories = ["Appreciation", "Engagement", "Impact", "Confidence"]
+    hume_expressions = [
+        "Admiration",
+        "Adoration",
+        "Aesthetic Appreciation",
+        "Amusement",
+        "Anger",
+        "Annoyance",
+        "Anxiety",
+        "Awe",
+        "Awkwardness",
+        "Boredom",
+        "Calmness",
+        "Concentration",
+        "Confusion",
+        "Contemplation",
+        "Contempt",
+        "Contentment",
+        "Craving",
+        "Desire",
+        "Determination",
+        "Disappointment",
+        "Disapproval",
+        "Disgust",
+        "Distress",
+        "Doubt",
+        "Ecstasy",
+        "Embarrassment",
+        "Empathic Pain",
+        "Enthusiasm",
+        "Entrancement",
+        "Envy",
+        "Excitement",
+        "Fear",
+        "Gratitude",
+        "Guilt",
+        "Horror",
+        "Interest",
+        "Joy",
+        "Love",
+        "Nostalgia",
+        "Pain",
+        "Pride",
+        "Realization",
+        "Relief",
+        "Romance",
+        "Sadness",
+        "Sarcasm",
+        "Satisfaction",
+        "Shame",
+        "Surprise (negative)",
+        "Surprise (positive)",
+        "Sympathy",
+        "Tiredness",
+        "Triumph"
+    ]
+
     grouped_expressions = {
         "Appreciation": [
             {"Admiration": 1},
@@ -76,140 +132,17 @@ if __name__ == "__main__":
             {"Tiredness": 1},
             {"Triumph": 1}
         ],
-        "Engagement": 
+        "Engagement": [
+
+        ],
+        "Impact": [
+
+        ],
+        "Confidence": [
+            
+        ]
     }
-    hume_expressions = [
-        "Admiration",
-        "Adoration",
-        "Aesthetic Appreciation",
-        "Amusement",
-        "Anger",
-        "Annoyance",
-        "Anxiety",
-        "Awe",
-        "Awkwardness",
-        "Boredom",
-        "Calmness",
-        "Concentration",
-        "Confusion",
-        "Contemplation",
-        "Contempt",
-        "Contentment",
-        "Craving",
-        "Desire",
-        "Determination",
-        "Disappointment",
-        "Disapproval",
-        "Disgust",
-        "Distress",
-        "Doubt",
-        "Ecstasy",
-        "Embarrassment",
-        "Empathic Pain",
-        "Enthusiasm",
-        "Entrancement",
-        "Envy",
-        "Excitement",
-        "Fear",
-        "Gratitude",
-        "Guilt",
-        "Horror",
-        "Interest",
-        "Joy",
-        "Love",
-        "Nostalgia",
-        "Pain",
-        "Pride",
-        "Realization",
-        "Relief",
-        "Romance",
-        "Sadness",
-        "Sarcasm",
-        "Satisfaction",
-        "Shame",
-        "Surprise (negative)",
-        "Surprise (positive)",
-        "Sympathy",
-        "Tiredness",
-        "Triumph"
-    ]
-    hume_expressions = [
-["Engagement", "Appreciation"]
-        "Anger",
-        "Annoyance",
-        "Contempt",
-        
-       "Nervousness": [
-           "Anxiety",
-           "Distress",
-           "Awkwardness"
-       ]
-        
-        "Fear",
-        "Horror",
-        "Pain",
-
-        "Confusion",
-        "Doubt",
-        "Boredom",
-        "Calmness",
-        "Tiredness",
-        
-        "happiness": [
-            "Amusement",
-            "Contentment",
-            "Ecstasy",
-            "Enthusiasm",
-            "Excitement",
-            "Joy",
-            "Love",
-            "Nostalgia",
-            "Surprise (positive)",
-            "Realization",
-        ]
-
-        
-
-        
-        "Positive-Engagement": [
-            "Concentration",
-            "Contemplation",
-            "Entrancement",
-            "Interest",
-            "Determination",
-            "Empathic Pain",
-        ]
-        
-        "Negative-Engagement"[
-            "Disappointment",
-            "Disapproval",
-            "Disgust",
-            "Embarrassment",
-            "Surprise (negative)",
-        ]
     
-        
-
-        "Envy",
-
-        "Romance",
-        "Guilt",
-
-        "Gratitude",
-        
-        
-        "Pride",
-        
-        "Relief",
-        "Sadness",
-        "Sarcasm",
-        "Satisfaction",
-        "Shame",
-        
-        "Sympathy",
-        "Triumph"
-    ]
-
     # setup db
     df = pd.DataFrame(columns=cols)
 
