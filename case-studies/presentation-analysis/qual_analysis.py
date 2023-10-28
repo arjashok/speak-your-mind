@@ -18,8 +18,13 @@ if __name__ == "__main__":
         "trait-name",
         "is-trait-present"
     ]
+    emotional_categories = [
+        "Appreciation",
+        "Engagement",
+        "Impact",
+        "Confidence"
+    ]
 
-    emotional_categories = ["Appreciation", "Engagement", "Impact", "Confidence"]
     hume_expressions = [
         "Admiration",
         "Adoration",
@@ -139,12 +144,12 @@ if __name__ == "__main__":
 
         ],
         "Confidence": [
-            
+
         ]
     }
     
     # setup db
-    df = pd.DataFrame(columns=cols)
+    df = pd.read_csv("quant-tracker.csv")
 
     # append to db
     while input("Add another video [y/n]: ") == 'y':
@@ -153,9 +158,15 @@ if __name__ == "__main__":
         pres_name = str(input("presenter name: "))
 
         # traits info
-        trait_dict = 
+        traits_dict = dict()
         for trait in hume_expressions:
             trait_val = str(input(f"is {trait} present in {vid_name} [y/n]: ")) == 'y'
+            new_row = dict(zip(cols, [vid_name, pres_name, trait, trait_val]))
+            traits_dict.update(new_row)
 
-        
+        # add to pandas dataframe
+        df = df.append(traits_dict, ignore_index=True)
+    
+    # save to csv
+    df.to_csv("quant-tracker.csv", index=False)
 
