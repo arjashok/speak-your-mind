@@ -5,6 +5,7 @@
 # ----------------- Environment Setup ----------------- #
 import json
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 # ----------------- Processing Functionality ----------------- #
@@ -29,8 +30,28 @@ def process_hume_response(hume_response_raw: str) -> tuple:
     user feedback.
 """
 def gen_metrics(df: pd.DataFrame):
+    # setup constants
+    expression_set = {"emotions"}               # "facs", "descriptions" will be added later
+    model_set = {"face", "prosody"}             # "language", "burst", etc. may be added later
+
     # setup metrics by grouping
-    df = 
+    with open("grouped-expressions.json", "r") as f:
+        grouped_metrics = json.load(f)
+    
+    grouped_expressions = list(grouped_metrics.keys())
+    unique_times = list(df["timestamp"].unique())
+    processed_metrics = {}                          # each timestamp is a unique entry w/ agg metrics
+    
+    # for each unique time, we'll generate the aggregate of each group 
+    # expression that we have qualitatively determined to be useful to the user 
+    # and most indicative of speech performance
+    df.groupby("timestamp")["emotion"].sum().reset_index()
+
+    for timestamp in unique_times:
+        # narrow data
+        narrow_df = df[df["timestamp"] == timestamp]
+        
+
 
 
 """
@@ -115,3 +136,11 @@ def gen_timestamp(time_raw) -> str:
     # Format the result as "hh:mm:ss"
     return f"{hours:02d}:{minutes:02d}:{seconds:0.2f}"
 
+
+# ----------------- Processing Functionality ----------------- #
+if __name__ == "__main__":
+    with open("predictions.json", "r") as f:
+        hr = json.load(f)
+
+    df = gen_df(hr)
+    gen_metrics(df)
