@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import DisplayGauges from './DisplayGauges.js';
 
 function PostForm(){
     const url= "http://localhost:5000/sym-processor"; //Get Url from Arjun and add it here
@@ -8,7 +9,13 @@ function PostForm(){
         request_content: ""
     })
 
-    const [response, setResponse] = useState(null);
+    const [response, setResponse] = useState({
+        appreciation: "0",
+        impact: "0",
+        confidence: "0",
+        engagement: "0",
+        feedback: "Hello There, this is the analysis of your speech. It does quite well for itself"
+    });
 
     function submit(e){
         e.preventDefault();
@@ -67,6 +74,7 @@ function PostForm(){
             <input onChange={(e) => handle(e)} id="target" value={data.target} placeholder="Target Audience" type="number" style = {inputStyle}></input>
             <input onChange={(e) => handle(e)} id="request_content" value={data.request_content} placeholder="Video Url" type="text" style = {inputStyle}></input>
             <button>Submit</button>
+            <DisplayGauges response = {response}/>
         </form>
     );
 }

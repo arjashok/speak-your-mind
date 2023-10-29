@@ -90,7 +90,13 @@ class SYM_Processor(Resource):
         #}
         
         # hume_response = gen_hume_analysis()
-        return {"message": "Data processed successfully"}, 200
+        return {
+            "appreciation": "5",
+            "impact": "67",
+            "confidence": "43",
+            "engagement": "21",
+            "feedback": "Hello There, this is the analysis of your speech. It does quite well for itself"
+        }, 200
 
 
 
