@@ -46,7 +46,20 @@ class SYM_Processor(Resource):
                         :: This will be a JSON/dictionary that associates key 
                         emotions/thoughts with the frame
     """
-    def post_video(self):
+    def post_video(self) -> dict:
+        # parsing
+        parser = reqparse.RequestParser()  # initialize
+        parser.add_argument("request_content", required=True)
+        args = parser.parse_args()
+
+        request_params = json.loads(args["request_content"])
+
+        # dispatcher
+
+    
+    """
+        
+    """
         
 
 
