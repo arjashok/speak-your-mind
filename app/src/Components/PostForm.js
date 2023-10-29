@@ -8,14 +8,21 @@ function PostForm(){
         videoUrl: ""
     })
 
+    const [response, setResponse] = useState(null);
+
     function submit(e){
         e.preventDefault();
         axios.post(url, {
             target: data.target,
             videoUrl: data.videoUrl
         }).then(res=>{
-            console.log(res.data)
+            console.log(res.data);
+            setResponse(res.data);
         })
+        .catch(err => {
+            console.error("Error submitting data:", err);
+            setResponse("Error occurred while submitting");
+        });
     }
 
     function handle(e){
