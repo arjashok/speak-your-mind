@@ -16,12 +16,17 @@ import matplotlib.pyplot as plt
     This will return a dictionary of the metrics to graph, plus the extracted 
     information from raw as a dictionary
 """
-def process_hume_response(hume_response_raw: str) -> tuple:
+def process_hume_response(hume_response) -> tuple:
+    # parameter setup
+    expression_set = {"emotions"}               # "facs", "descriptions" will be added later
+    model_set = {"face", "prosody"}             # "language", "burst", etc. may be added later
+
     # convert raw
-    hume_response = json.loads(hume_response_raw)
+    if isinstance(hume_response, str):
+        hume_response = json.loads(hume_response)
 
     # generate data for graphs & visuals
-    metrics_df = gen_df(hume_response)
+    metrics_df = gen_df(hume_response, model_set, expression_set)
     return gen_metrics(metrics_df)
 
 
@@ -30,37 +35,96 @@ def process_hume_response(hume_response_raw: str) -> tuple:
     user feedback.
 """
 def gen_metrics(df: pd.DataFrame):
-    # setup constants
-    expression_set = {"emotions"}               # "facs", "descriptions" will be added later
-    model_set = {"face", "prosody"}             # "language", "burst", etc. may be added later
+    # process pre-processed data
+    processed_df = transform_metrics(df)
+    processed_df = processed_df[["emotion-group", "abs-score"]]
+    return processed_df.to_dict()
 
+
+"""
+    Transforms the pre-processed data into format that's easier to work with for 
+    plotting & metrics calculation.
+
+    timestamp vs aggregated metrics
+"""
+def transform_metrics(df: pd.DataFrame):
     # setup metrics by grouping
     with open("grouped-expressions.json", "r") as f:
         grouped_metrics = json.load(f)
     
-    grouped_expressions = list(grouped_metrics.keys())
     unique_times = list(df["timestamp"].unique())
-    processed_metrics = {}                          # each timestamp is a unique entry w/ agg metrics
-    
+
     # for each unique time, we'll generate the aggregate of each group 
     # expression that we have qualitatively determined to be useful to the user 
     # and most indicative of speech performance
-    df.groupby("timestamp")["emotion"].sum().reset_index()
+    # df.groupby("timestamp")["emotion"].mean().reset_index()
 
-    for timestamp in unique_times:
-        # narrow data
-        narrow_df = df[df["timestamp"] == timestamp]
+    # for timestamp in unique_times:
+    #     # narrow data
+    #     narrow_df = df[df["timestamp"] == timestamp]
+
+    #     # for each row, we want the net and abs sum of the thing
+    #     # 
+    #     row_data = dict.fromkeys(grouped_expressions)
+
+    #     # aggregate metrics
+    #     for grouped_expression, expression_weights in grouped_expressions.items():
+    #         for expression_info in expression_weights:
+    #             for expression_name, expression_weight in expression_info:
+    #                 row_data[narrow_df[narrow_df["emotion"] == expression_name]["score"]
+    
+    return timeslice_metrics(df, grouped_metrics)
+
+
+"""
+    Generates the time-slice performance, allowing for more modularity and 
+    future feature inclusion.
+"""
+def timeslice_metrics(narrow_df: pd.DataFrame, grouped_metrics: dict) -> pd.DataFrame:
+    # setup
+    grouped_expressions = list(grouped_metrics.keys())
+
+    # we'll generate the aggregate of each group expression that we have 
+    # qualitatively determined to be useful to the user and most indicative of 
+    # speech performance
+    narrow_df = narrow_df.groupby("emotion")["score"].mean().reset_index()
+
+    # generate accumulated metrics
+    cols = [
+        "emotion-group",
+        "net-score",
+        "abs-score"
+    ]
+    processed_metrics = pd.DataFrame(columns=cols)                          # each timestamp is a unique entry w/ agg metrics
+    
+    for grouped_expression in grouped_expressions:
+        # track aggregates
+        net_sum = 0
+        abs_sum = 0
+
+        # sum for each expression
+        for pairwise_weight in grouped_metrics[grouped_expression]:
+            for expression in pairwise_weight:
+                weight = pairwise_weight[expression]
+                net_sum += weight
+                abs_sum += abs(weight)
         
+        # add to tracker
+        processed_metrics = pd.concat([
+            processed_metrics,
+            pd.DataFrame(dict(zip(cols, [[grouped_expression], [net_sum * 1.5], [abs_sum * 1.5]])))
+        ])
+
+    # export
+    return processed_metrics
 
 
 
 """
     Generates a database for displaying graphs, running metrics, etc.
 """
-def gen_df(hume_response: dict) -> pd.DataFrame:
+def gen_df(hume_response: dict, model_set: list, expression_set: list) -> pd.DataFrame:
     # setup
-    expression_set = {"emotions"}               # "facs", "descriptions" will be added later
-    model_set = {"face", "prosody"}             # "language", "burst", etc. may be added later
     narrowed_dict = dict()
 
     # check errors
@@ -142,5 +206,4 @@ if __name__ == "__main__":
     with open("predictions.json", "r") as f:
         hr = json.load(f)
 
-    df = gen_df(hr)
-    gen_metrics(df)
+    process_hume_response(hr)
