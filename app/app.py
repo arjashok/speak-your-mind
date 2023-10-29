@@ -91,11 +91,11 @@ class SYM_Processor(Resource):
         
         # hume_response = gen_hume_analysis()
         return {
-            "appreciation": "5",
+            "appreciation": "75",
             "impact": "67",
-            "confidence": "43",
-            "engagement": "21",
-            "feedback": "Hello There, this is the analysis of your speech. It does quite well for itself"
+            "confidence": "98",
+            "engagement": "69",
+            "feedback": "First and foremost, I'd like to commend you on delivering such a stellar presentation. The quality of your speech was undoubtedly top-tier, reflecting a depth of preparation and a mastery over the art of oration. Your confidence radiated throughout, and your speaking prowess is nothing short of impeccable. However, every masterwork has room for a touch of refinement. While your delivery was strong, we noticed a slight disconnect when it came to audience engagement and the overall impact of your speech. This is a crucial aspect of ensuring that your message not only reaches but also resonates with every individual in your audience. Given your evident capabilities, we are confident that with a few adjustments, you can elevate your speech even further. We'd suggest revisiting some sections of your content to infuse them with a bit more vigor and dynamism. Tailoring your content to be both powerful and engaging will undoubtedly captivate your listeners from start to finish."
         }, 200
 
 
