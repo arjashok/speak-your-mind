@@ -5,16 +5,38 @@
 
 
 # ----------------- Environment Setup ----------------- #
+import sys
+import os
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir + "/hume-api/")
+sys.path.append(parent_dir + "/facial-recog/")
+sys.path.append(parent_dir + "/gen-feedback/")
+sys.path.append(parent_dir + "/app/")
+
 import json
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import pandas as pd
 import ast
+from enum import Enum
 app = Flask(__name__)
 api = Api(app)
 
+from hume-api import *
+
 
 # ----------------- Endpoint Wrappers ----------------- #
+"""
+    Classes for interpreting inputs & outputs.
+"""
+class Content_Type(Enum):
+    SPEAKER = 0
+    AUDIENCE = 1
+    SPEAKERAUDIENCE = 2
+
+
 """
     Class to wrap all methods.
 """
@@ -55,12 +77,20 @@ class SYM_Processor(Resource):
         request_params = json.loads(args["request_content"])
 
         # dispatcher
+        dispatch_params = {
+            "API-KEY": "9BAoszAhvQSgWLIttRJHlBJRHavk4NWOzfZQUTrDSATB5RFu",
+            "CONTENT-TYPE": request_params["content-type"]
+        }
+        
+        hume_response = gen_hume_analysis()
 
     
+
     """
-        
+        Post callback url for the HUME API.
     """
-        
+    def post_callback(self) -> dict:
+
 
 
 api.add_resource(SYM_Processor, "./sym-processor")
