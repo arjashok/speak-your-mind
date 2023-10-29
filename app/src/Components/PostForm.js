@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function PostForm(){
-    const url= "http://localhost:8080/order/submit"; //Get Url from Arjun and add it here
+    const url= "http://localhost:5000/sym-processor"; //Get Url from Arjun and add it here
     const [data, setData] = useState({
         target: "",
-        videoUrl: ""
+        request_content: ""
     })
 
     const [response, setResponse] = useState(null);
@@ -14,7 +14,7 @@ function PostForm(){
         e.preventDefault();
         axios.post(url, {
             target: data.target,
-            videoUrl: data.videoUrl
+            request_content: data.request_content
         }).then(res=>{
             console.log(res.data);
             setResponse(res.data);
@@ -65,7 +65,7 @@ function PostForm(){
             <h3 style = {hStyle}>Speaker: Type 1</h3>
             <h3 style = {hStyle}>Both: Type 2</h3>
             <input onChange={(e) => handle(e)} id="target" value={data.target} placeholder="Target Audience" type="number" style = {inputStyle}></input>
-            <input onChange={(e) => handle(e)} id="videoUrl" value={data.videoUrl} placeholder="Video Url" type="text" style = {inputStyle}></input>
+            <input onChange={(e) => handle(e)} id="request_content" value={data.request_content} placeholder="Video Url" type="text" style = {inputStyle}></input>
             <button>Submit</button>
         </form>
     );

@@ -16,15 +16,17 @@ sys.path.append(parent_dir + "/gen-feedback/")
 sys.path.append(parent_dir + "/app/")
 
 import json
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
-import pandas as pd
+from flask_cors import CORS
+# import pandas as pd
 import ast
 from enum import Enum
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
 
-from hume-api import *
+# from hume-api import *
 
 
 # ----------------- Endpoint Wrappers ----------------- #
@@ -41,6 +43,7 @@ class Content_Type(Enum):
     Class to wrap all methods.
 """
 class SYM_Processor(Resource):
+
     """
         Receives POST response, wraps all necessary calls:
 
@@ -68,32 +71,30 @@ class SYM_Processor(Resource):
                         :: This will be a JSON/dictionary that associates key 
                         emotions/thoughts with the frame
     """
-    def post_video(self) -> dict:
-        # parsing
-        parser = reqparse.RequestParser()  # initialize
-        parser.add_argument("request_content", required=True)
-        args = parser.parse_args()
-
-        request_params = json.loads(args["request_content"])
+    def post(self) -> dict:
+        request_data = request.json
+        if not request_data or 'request_content' not in request_data or 'target' not in request_data:
+            return jsonify({
+                "status": "error",
+                "message": "Invalid request data. Please provide 'request_content' and 'target'."
+            }), 400
+        request_content = request_data["request_content"]
+        target = request_data["target"]
+        print(request_content + "\n")
+        print(target + "\n")
 
         # dispatcher
-        dispatch_params = {
-            "API-KEY": "9BAoszAhvQSgWLIttRJHlBJRHavk4NWOzfZQUTrDSATB5RFu",
-            "CONTENT-TYPE": request_params["content-type"]
-        }
+        # dispatch_params = {
+        #    "API-KEY": "9BAoszAhvQSgWLIttRJHlBJRHavk4NWOzfZQUTrDSATB5RFu",
+        #    "CONTENT-TYPE": request_params["content-type"]
+        #}
         
-        hume_response = gen_hume_analysis()
-
-    
-
-    """
-        Post callback url for the HUME API.
-    """
-    def post_callback(self) -> dict:
+        # hume_response = gen_hume_analysis()
+        return {"message": "Data processed successfully"}, 200
 
 
 
-api.add_resource(SYM_Processor, "./sym-processor")
+api.add_resource(SYM_Processor, "/sym-processor")
 
 
 # ----------------- Feature Iteration & Testing ----------------- #
