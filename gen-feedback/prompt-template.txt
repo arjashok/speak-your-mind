@@ -1,0 +1,5 @@
+[give background on the entity the LLM has to act as]
+
+[give a specific task]
+
+[give examples (potentially)]
