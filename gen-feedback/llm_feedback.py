@@ -4,15 +4,11 @@
 """
 
 
-
-"""
-    Functionality for processing the HUME response.
-"""
-
 # ----------------- Environment Setup ----------------- #
 import json
+import os
 import openai
-openai.key = "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"
+openai.api_key = os.getenv("OPEN_AI_API_KEY")
 
 
 # ----------------- Processing Functionality ----------------- #
