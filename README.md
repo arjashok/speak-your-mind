@@ -1,6 +1,6 @@
 # Presentation Analyzer [Speak Your Mind] #
 >We can grade emotions, gesture-use, & textual content generated from a video of
->a speech and then generate pointers to improve on each >of these categories.
+a speech and then generate pointers to improve on each >of these categories.
 
 - Emotions of the Presenter are mirrored by the audience; therefore, gauging how 
 the presenter is speaking (stress, anxiety, etc.) ⇒ Hume AI can do this as well
