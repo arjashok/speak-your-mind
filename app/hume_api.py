@@ -61,8 +61,8 @@ from hume.models.config import ProsodyConfig
     Pushes the request to HUME and returns the [processed] output.
 """
 async def gen_hume_analysis(params: dict):
-    client = HumeBatchClient(f"{params[API_KEY]}")
-    urls = [f"{params[VIDEO_URL]}"]
+    client = HumeBatchClient(f"{params['API_KEY']}")
+    urls = [f"{params['VIDEO_URL']}"]
     configs = [FaceConfig(fps_pred=1, prob_threshold = 0.9, identify_faces=False), ProsodyConfig()]
     job = client.submit_job(urls, configs)
 

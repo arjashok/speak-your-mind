@@ -72,7 +72,7 @@ class SYM_Processor(Resource):
                         :: This will be a JSON/dictionary that associates key 
                         emotions/thoughts with the frame
     """
-    def post(self) -> dict:
+    def post(self) -> tuple:
         # unpack args & check quality
         request_data = request.json
         if not request_data or 'request_content' not in request_data or 'target' not in request_data:
@@ -89,7 +89,7 @@ class SYM_Processor(Resource):
 
         # dispatcher
         dispatch_params = {
-           "API_KEY": "9BAoszAhvQSgWLIttRJHlBJRHavk4NWOzfZQUTrDSATB5RFu",
+           "API_KEY": os.getenv("HUME_API_KEY"),
            "VIDEO_URL": request_content["content-type"],
            "CONTENT_TYPE": target
         }
@@ -104,15 +104,7 @@ class SYM_Processor(Resource):
             "confidence": aggregate_expressions["Confidence"],
             "engagement": aggregate_expressions["Engagement"],
             "feedback": user_feedback
-        }
-
-        # return {
-        #     "appreciation": "75",
-        #     "impact": "67",
-        #     "confidence": "98",
-        #     "engagement": "69",
-        #     "feedback": "First and foremost, I'd like to commend you on delivering such a stellar presentation. The quality of your speech was undoubtedly top-tier, reflecting a depth of preparation and a mastery over the art of oration. Your confidence radiated throughout, and your speaking prowess is nothing short of impeccable. However, every masterwork has room for a touch of refinement. While your delivery was strong, we noticed a slight disconnect when it came to audience engagement and the overall impact of your speech. This is a crucial aspect of ensuring that your message not only reaches but also resonates with every individual in your audience. Given your evident capabilities, we are confident that with a few adjustments, you can elevate your speech even further. We'd suggest revisiting some sections of your content to infuse them with a bit more vigor and dynamism. Tailoring your content to be both powerful and engaging will undoubtedly captivate your listeners from start to finish."
-        # }, 200
+        }, 200
 
 
 
